@@ -14,12 +14,13 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::resource('authors', 'AuthorsController', ['only' => ['index', 'show']]);
-Route::resource('quotes', 'QuotesController', ['only' => ['index', 'show']]);
 
-Route::group(['prefix' => 'api'], function()
+Route::group(['prefix' => 'api','middleware' => 'cors'], function()
 {
     Route::resource('authenticate', 'Auth\AuthenticateController', ['only' => ['index']]);
     Route::post('authenticate', 'Auth\AuthenticateController@authenticate');
     Route::get('authenticate/user', 'Auth\AuthenticateController@getAuthenticatedUser');
+
+    Route::resource('authors', 'AuthorsController', ['only' => ['index', 'show']]);
+    Route::resource('quotes', 'QuotesController', ['only' => ['index', 'show']]);
 });
